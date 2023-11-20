@@ -6,6 +6,10 @@ type User = {
   password: string;
 };
 
+type Users = User[];
+
+const users = [] as Users;
+
 type Activity = {
   id: string;
   name: string;
@@ -13,3 +17,17 @@ type Activity = {
   endTime: Date;
   pauses: { startTime: Date; endTime: Date }[];
 };
+
+function createUser(user: Omit<User, "id">): User[] {
+  const newUser: User = {
+    ...user,
+    id: crypto.randomUUID(),
+  };
+
+  users.push(newUser);
+
+  const userToLocalStorage = JSON.stringify(newUser);
+  localStorage.setItem(newUser.login, userToLocalStorage);
+
+  return users;
+}

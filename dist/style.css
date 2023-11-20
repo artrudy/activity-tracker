@@ -24,6 +24,26 @@ body {
   text-align: center;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  font-family: inherit;
+  color: white;
+}
+
+input {
+  font-size: 1.4rem;
+  font-family: inherit;
+  background-color: #dc143c;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 25px;
+  color: white;
+}
+
 h1 {
   color: #dc143c;
 }
