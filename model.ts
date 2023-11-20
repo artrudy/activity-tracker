@@ -1,12 +1,12 @@
-type User = {
-  id: string;
+export type User = {
+  // id: string;
   name: string;
   surname: string;
   login: string;
   password: string;
 };
 
-type Users = User[];
+export type Users = User[];
 
 const users = [] as Users;
 
@@ -18,16 +18,11 @@ type Activity = {
   pauses: { startTime: Date; endTime: Date }[];
 };
 
-function createUser(user: Omit<User, "id">): User[] {
-  const newUser: User = {
-    ...user,
-    id: crypto.randomUUID(),
-  };
+export function createUser(user: Omit<User, "id">): User[] {
+  users.push(user);
 
-  users.push(newUser);
-
-  const userToLocalStorage = JSON.stringify(newUser);
-  localStorage.setItem(newUser.login, userToLocalStorage);
+  const userToLocalStorage = JSON.stringify(user);
+  localStorage.setItem(user.login, userToLocalStorage);
 
   return users;
 }

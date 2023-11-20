@@ -1,3 +1,7 @@
+// import { User } from "./model.js";
+// import { Users } from "./model.js";
+// import { createUser } from "./model.js";
+
 document.querySelector("#createUser")?.addEventListener("click", (e) => {
   e.preventDefault();
 
@@ -5,6 +9,7 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
   if (loginMenu) loginMenu.style.display = "none";
 
   const form = document.createElement("form");
+  form.id = "registrationForm";
 
   const loginLabel = document.createElement("label");
   loginLabel.textContent = "Login:";
@@ -51,9 +56,9 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
   form.appendChild(passwordInput);
   form.appendChild(document.createElement("br"));
 
-  const passwordError = document.createElement("div");
-  passwordError.classList.add("error-message");
-  form.appendChild(passwordError);
+  const registrationMessage = document.createElement("div");
+  registrationMessage.classList.add("message");
+  form.appendChild(registrationMessage);
   form.appendChild(document.createElement("br"));
 
   const submitButton = document.createElement("button");
@@ -62,8 +67,37 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
   submitButton.addEventListener("click", validateForm);
   form.appendChild(submitButton);
 
+  loginInput.addEventListener("input", () => {
+    const login = loginInput.value;
+    const userExists = localStorage.getItem(login) !== null;
+    loginInput.setCustomValidity(userExists ? "Login already exists..." : "");
+    loginInput.reportValidity();
+
+    const elementsToToggle = [
+      nameLabel,
+      nameInput,
+      surnameLabel,
+      surnameInput,
+      passwordLabel,
+      passwordInput,
+      submitButton,
+    ];
+
+    if (userExists) {
+      elementsToToggle.forEach((element) => {
+        element.classList.add("hide");
+      });
+    } else {
+      elementsToToggle.forEach((element) => {
+        element.classList.remove("hide");
+      });
+    }
+  });
+
   function validateForm() {
     const login = loginInput.value;
+
+    console.log(login, "login");
     const name = nameInput.value;
     const surname = surnameInput.value;
     const password = passwordInput.value;
@@ -72,19 +106,45 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(password)) {
-      passwordError.textContent =
+      registrationMessage.textContent =
         "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one special character.";
     } else {
-      passwordError.textContent = "";
-      alert("Registration successful!");
+      registrationMessage.textContent = "Registartion successful!";
+    }
+
+    function getFormData(): Record<string, string> {
+      const formData: Record<string, string> = {};
+
+      const formInputs =
+        document.querySelectorAll<HTMLInputElement>("form input");
+
+      formInputs.forEach((input) => {
+        if (input.id) {
+          formData[input.id] = input.value;
+        }
+      });
+
+      console.log(formData);
+
+      return formData;
     }
   }
 
   document.body.appendChild(form);
-
-  console.log("plus");
 });
 
 document.querySelector("#login")?.addEventListener("click", () => {
   console.log("log");
 });
+
+function isUserExists(login: string): boolean {
+  const storedData = localStorage.getItem(login);
+
+  if (storedData) {
+    const users = JSON.parse(storedData);
+
+    return users.some((user: Record<string, string>) => user.login === login);
+  }
+
+  return false;
+}

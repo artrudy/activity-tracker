@@ -62,7 +62,17 @@ button {
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #751a2c;
+  }
+
+  &:disabled {
+    background-color: inherit;
+    cursor: not-allowed;
+  }
 }
-button:hover {
-  background-color: #751a2c;
+
+.hide {
+  display: none;
 }
