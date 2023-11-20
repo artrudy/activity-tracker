@@ -23,6 +23,7 @@ export function createUser(user: Omit<User, "id">): User[] {
 
   const userToLocalStorage = JSON.stringify(user);
   localStorage.setItem(user.login, userToLocalStorage);
+  console.log("new user created");
 
   return users;
 }

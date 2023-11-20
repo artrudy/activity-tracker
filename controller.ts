@@ -1,6 +1,6 @@
-// import { User } from "./model.js";
+import { User } from "./model.js";
 // import { Users } from "./model.js";
-// import { createUser } from "./model.js";
+import { createUser } from "./model.js";
 
 document.querySelector("#createUser")?.addEventListener("click", (e) => {
   e.preventDefault();
@@ -97,7 +97,6 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
   function validateForm() {
     const login = loginInput.value;
 
-    console.log(login, "login");
     const name = nameInput.value;
     const surname = surnameInput.value;
     const password = passwordInput.value;
@@ -110,23 +109,13 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
         "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one special character.";
     } else {
       registrationMessage.textContent = "Registartion successful!";
-    }
-
-    function getFormData(): Record<string, string> {
-      const formData: Record<string, string> = {};
-
-      const formInputs =
-        document.querySelectorAll<HTMLInputElement>("form input");
-
-      formInputs.forEach((input) => {
-        if (input.id) {
-          formData[input.id] = input.value;
-        }
-      });
-
-      console.log(formData);
-
-      return formData;
+      const user: User = {
+        name: name,
+        surname: surname,
+        login: login,
+        password: password,
+      };
+      createUser(user);
     }
   }
 
@@ -136,15 +125,3 @@ document.querySelector("#createUser")?.addEventListener("click", (e) => {
 document.querySelector("#login")?.addEventListener("click", () => {
   console.log("log");
 });
-
-function isUserExists(login: string): boolean {
-  const storedData = localStorage.getItem(login);
-
-  if (storedData) {
-    const users = JSON.parse(storedData);
-
-    return users.some((user: Record<string, string>) => user.login === login);
-  }
-
-  return false;
-}
