@@ -175,6 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentUser = urlParams.get("user");
     const greetingElement = document.getElementById("greeting");
     if (greetingElement) {
-        greetingElement.textContent = `Welcome, ${decodeURIComponent(currentUser)}.`;
+        greetingElement.textContent = `Welcome back, ${decodeURIComponent(currentUser)}.`;
     }
 });

@@ -73,3 +73,11 @@ button:disabled {
 .hide {
   display: none;
 }
+
+#greeting {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: start;
+  padding: 20px;
+}

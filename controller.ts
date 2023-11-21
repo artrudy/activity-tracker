@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const greetingElement = document.getElementById("greeting");
 
   if (greetingElement) {
-    greetingElement.textContent = `Welcome, ${decodeURIComponent(
+    greetingElement.textContent = `Welcome back, ${decodeURIComponent(
       currentUser
     )}.`;
   }
