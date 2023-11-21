@@ -178,3 +178,44 @@ document.addEventListener("DOMContentLoaded", function () {
         greetingElement.textContent = `Welcome back, ${decodeURIComponent(currentUser)}.`;
     }
 });
+function displayUserActivities(user) {
+    const userActivities = getUserActivities(user);
+    const tableContainer = document.getElementById("userActivitiesTable");
+    if (userActivities && userActivities.length > 0 && tableContainer) {
+        const table = document.createElement("table");
+        table.classList.add("user-activities-table");
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        headerRow.innerHTML = `
+      <th>ID</th>
+      <th>Name</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+    `;
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        const tbody = document.createElement("tbody");
+        userActivities.forEach((activity) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+        <td>${activity.id}</td>
+        <td>${activity.name}</td>
+        <td>${activity.startTime.toLocaleString()}</td>
+        <td>${activity.endTime.toLocaleString()}</td>
+      `;
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+        tableContainer.innerHTML = "";
+        tableContainer.appendChild(table);
+    }
+    else {
+        if (tableContainer) {
+            tableContainer.textContent = "No activities found.";
+        }
+    }
+}
+function getUserActivities(user) {
+    const userActivities = JSON.parse(localStorage.getItem("userActivities") || "{}");
+    return userActivities[user] || [];
+}
